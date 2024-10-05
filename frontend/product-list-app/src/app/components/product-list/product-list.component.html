@@ -1,0 +1,54 @@
+<div class="product-list">
+    <!-- ค้นหาสินค้า และจัดเรียงสินค้า -->
+    <div class="controls">
+        <div class="search">
+            <input 
+                [(ngModel)]="searchTerm" 
+                placeholder="ค้นหาสินค้าตามชื่อ" 
+                (input)="onSearchChange(searchTerm)" 
+                class="search-input" 
+            />
+        </div>
+
+        <div class="sort">
+            <select 
+                [(ngModel)]="sort" 
+                (change)="onSortChange(sort)" 
+                class="sort-select"
+            >
+                <option value="name">Sort By Name</option>
+                <option value="createdDate">Sort By CreateDate</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- แสดงสินค้า -->
+    <div class="product-grid">
+        <div *ngFor="let product of displayedProducts" class="product-item">
+            <img [src]="baseImageUrl + product.imageUrl" alt="{{ product.name }}" class="product-image" />
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-price">{{ product.price | currency: product.currency : 'symbol' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- การแบ่งหน้า -->
+    <div class="pagination">
+        <button 
+            (click)="onPageChange(page - 1)" 
+            [disabled]="page === 1" 
+            class="pagination-button"
+        >
+            ก่อนหน้า
+        </button>
+        <span>หน้า {{ page }} ของ {{ getTotalPages() }}</span>
+        <button 
+            (click)="onPageChange(page + 1)" 
+            [disabled]="page === getTotalPages()" 
+            class="pagination-button"
+        >
+            ถัดไป
+        </button>
+    </div>
+</div>
